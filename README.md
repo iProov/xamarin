@@ -14,6 +14,14 @@ We will shortly also be providing an additional package to allow you to use iPro
 
 The iProov Xamarin SDK is currently in preview, which means that not all functionality may work entirely correctly. Please contact [support@iproov.com](mailto:support@iproov.com) to provide your feedback regarding the iProov Xamarin SDK Preview.
 
+## 📖 Contents
+
+The iProov Xamarin SDK is provided via this repository, which contains the following:
+
+- **README.md** - This document
+- **NuGet Packages** - Directory containing the NuGet packages for Xamarin.iOS & Xamarin.Android
+- **WaterlooBank** - Sample code demonstrating use of the Xamarin.iOS & Xamarin.Android bindings together with the .NET API Client
+
 ## 🍏 iOS
 
 1. Add the "NuGet Packages" directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
@@ -38,7 +46,7 @@ The iProov Xamarin SDK is currently in preview, which means that not all functio
 		    },
 		    cancelled: () =>
 		    {
-		    	// The user cancelled iProov, either by pressing the close button at the top right, or sending
+				// The user cancelled iProov, either by pressing the close button at the top right, or sending
 				// the app to the background.
 		    },
 		    failure: (reason) =>
