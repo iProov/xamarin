@@ -60,7 +60,7 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 				// The user was not successfully verified/enrolled due to an error (e.g. lost internet connection)
 				// along with an `iProovError` with more information about the error (NSError in Objective-C).
 				// It will be called once, or never.
-			}
+		    }
 	);
 	```
 	
