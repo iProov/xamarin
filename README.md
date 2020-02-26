@@ -20,6 +20,7 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 
 - **README.md** - This document
 - **NuGet Packages** - Directory containing the NuGet packages for Xamarin.iOS & Xamarin.Android
+- **APIClient** - Source code for the .NET API Client
 - **WaterlooBank** - Sample code demonstrating use of the Xamarin.iOS & Xamarin.Android bindings together with the .NET API Client
 
 ## 🍏 iOS

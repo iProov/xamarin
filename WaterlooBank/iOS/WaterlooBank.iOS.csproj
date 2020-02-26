@@ -110,8 +110,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APIClient\APIClient.csproj">
-      <Project>{8138122E-B777-4E26-93DB-03D5CB992761}</Project>
+    <ProjectReference Include="..\..\APIClient\APIClient.csproj">
+      <Project>{CA3D1D5D-D50E-4F8C-8BFA-06800B28C44E}</Project>
       <Name>APIClient</Name>
     </ProjectReference>
   </ItemGroup>
