@@ -26,10 +26,12 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 1. Add the "NuGet Packages" directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
 
 2. Add the **iProov.iOS** NuGet package to your Xamarin project. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
-	
-3. Import the package into your project with `using iProov.iOS;`.
 
-4. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
+3. Add a "Privacy - Camera Usage Description" entry to your Info.plist file with the reason why your app requires camera access (e.g. "To iProov you in order to verify your identity.")
+
+4. Import the package into your project with `using iProov.iOS;`.
+
+5. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
 
 	```csharp
 	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new Options(),
@@ -207,6 +209,7 @@ For a simple iProov experience that is ready to run out-of-the-box, check out th
 
 1. Open the Waterloo Bank solution in Visual Studio.
 2. Right click the root project and "Restore NuGet Packages" to ensure all NuGet packages are ready for usage.
-3. Run the WaterlooBank.iOS or WaterlooBank.Droid project on a supported iOS or Android device respectively.
+3. Add your API key & secret to ViewController.cs (for WaterlooBank.iOS) and MainActivity.cs (for WaterlooBank.Droid).
+4. Run the WaterlooBank.iOS or WaterlooBank.Droid project on a supported iOS or Android device respectively.
 
 > NOTE: iProov is not supported on the iOS or Android simulator.
