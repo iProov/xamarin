@@ -8,9 +8,7 @@ We also provide a .NET API Client written in C# to call our [REST API v2](https:
 
 ### Preview
 
-The iProov Xamarin SDK is currently in preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact [support@iproov.com](mailto:support@iproov.com) to provide your feedback regarding the iProov Xamarin SDK Preview.
-
-We do not currently support Xamarin.Forms, a further update will be issued on that in due course.
+The iProov Xamarin SDK is currently a customer preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact [support@iproov.com](mailto:support@iproov.com) to provide your feedback regarding the iProov Xamarin SDK preview.
 
 ## 📖 Contents
 
@@ -212,4 +210,4 @@ For a simple iProov experience that is ready to run out-of-the-box, check out th
 3. Add your API key & secret to ViewController.cs (for WaterlooBank.iOS) and MainActivity.cs (for WaterlooBank.Droid).
 4. Run the WaterlooBank.iOS or WaterlooBank.Droid project on a supported iOS or Android device respectively.
 
-> NOTE: iProov is not supported on the iOS or Android simulator.
+> NOTE: iProov is not supported on the iOS or Android simulator, you must use a physical device in order to iProov.
