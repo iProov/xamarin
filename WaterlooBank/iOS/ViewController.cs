@@ -43,7 +43,7 @@ namespace WaterlooBank.iOS
                 {
                     Console.WriteLine("Cancelled");
                 },
-                failure: (reason) =>
+                failure: (reason, feedbackCode) =>
                 {
                     Console.WriteLine(reason);
                 },
