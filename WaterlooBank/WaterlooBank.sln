@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterlooBank.Droid", "Droid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterlooBank.iOS", "iOS\WaterlooBank.iOS.csproj", "{58120879-596D-453A-913E-8CAAE5640336}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIClient", "..\APIClient\APIClient.csproj", "{CA3D1D5D-D50E-4F8C-8BFA-06800B28C44E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iProov.APIClient", "..\APIClient\iProov.APIClient.csproj", "{CA3D1D5D-D50E-4F8C-8BFA-06800B28C44E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 using Android.Widget;
 using Android.OS;
 
-using APIClient;
+using iProov.APIClient;
 using iProov.Android;
 using System;
 
@@ -13,7 +13,7 @@ namespace WaterlooBank.Droid
     public class MainActivity : Activity
     {
 
-        APIClient.APIClient apiClient = new APIClient.APIClient(
+        APIClient apiClient = new APIClient(
             "https://eu.rp.secure.iproov.me/api/v2",
             "<Your API Key>",   // TODO: Add your API key here
             "<Your Secret>",    // TODO: Add your Secret here

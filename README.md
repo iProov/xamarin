@@ -10,6 +10,10 @@ We also provide a .NET API Client written in C# to call our [REST API v2](https:
 
 The iProov Xamarin SDK is currently a customer preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact [support@iproov.com](mailto:support@iproov.com) to provide your feedback regarding the iProov Xamarin SDK preview.
 
+### Xamarin.Forms
+
+We are currently examining the possibility of providing cross-platform support for Xamarin.Forms. For the time being, you are able to use the Xamarin.iOS and Xamarin.Android SDKs to produce cross-platform apps by writing the relevant platform-specific code.
+
 ## 📖 Contents
 
 The iProov Xamarin SDK is provided via this repository, which contains the following:
@@ -48,7 +52,7 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 				// The user cancelled iProov, either by pressing the close button at the top right, or sending
 				// the app to the background.
 		    },
-		    failure: (reason) =>
+		    failure: (reason, feedbackCode) =>
 		    {
 				// The user was not successfully verified/enrolled, as their identity could not be verified,
 				// or there was another issue with their verification/enrollment. A reason (as a string)

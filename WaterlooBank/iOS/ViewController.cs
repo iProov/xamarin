@@ -1,7 +1,7 @@
 ﻿using System;
 
 using UIKit;
-using APIClient;
+using iProov.APIClient;
 using iProov.iOS;
 
 namespace WaterlooBank.iOS
@@ -9,7 +9,7 @@ namespace WaterlooBank.iOS
     public partial class ViewController : UIViewController
     {
 
-        APIClient.APIClient apiClient = new APIClient.APIClient(
+        APIClient apiClient = new APIClient(
             "https://eu.rp.secure.iproov.me/api/v2",
             "<Your API Key>",  // TODO: Add your API key here
             "<Your Secret>",   // TODO: Add your Secret here

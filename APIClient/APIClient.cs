@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace APIClient
+namespace iProov.APIClient
 {
     public enum ClaimType
     {
@@ -37,7 +37,7 @@ namespace APIClient
 
             // User-Agent must always be sent, and Xamarin.Android doesn't send a
             // user agent for some reason
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "Xamarin");
+            httpClient.DefaultRequestHeaders.Add("User-Agent", ".NET Standard Library");
         }
 
         public async Task<string> GetToken(ClaimType type, string userID)
@@ -48,7 +48,7 @@ namespace APIClient
                 { "api_key", apiKey },
                 { "secret", secret },
                 { "resource", appID },
-                { "client", "xamarin" },
+                { "client", "dotnet" },
                 { "user_id", userID }
             };
 
@@ -63,10 +63,9 @@ namespace APIClient
 
             Dictionary<string, object> responseDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
 
-            return (string) responseDict["token"];
+            return (string)responseDict["token"];
         }
 
-        // TODO: Better way to pass image than byte[]?
         public async Task<string> EnrolPhoto(string token, byte[] jpegImage, PhotoSource source)
         {
             var fileContent = new ByteArrayContent(jpegImage);
@@ -88,7 +87,7 @@ namespace APIClient
 
             return (string)responseDict["token"];
         }
-        
+
         // TODO: Turn into a proper ValidationResult
         public async Task<Dictionary<string, object>> Validate(string token, string userID)
         {

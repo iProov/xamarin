@@ -181,9 +181,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\APIClient\APIClient.csproj">
+    <ProjectReference Include="..\..\APIClient\iProov.APIClient.csproj">
       <Project>{CA3D1D5D-D50E-4F8C-8BFA-06800B28C44E}</Project>
-      <Name>APIClient</Name>
+      <Name>iProov.APIClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
