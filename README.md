@@ -1,5 +1,16 @@
 # iProov Xamarin SDK (Preview)
 
+## 📖 Table of contents
+
+- [Introduction](#-introduction)
+- [Repository contents](#-repository-contents)
+- [Upgrading from earlier versions](#-upgrading-from-earlier-versions)
+- [Registration](#-registration)
+- [Xamarin.iOS](#-xamarin--ios)
+- [Xamarin.Android](#-xamarin--android)
+- [API Client](#-api-client)
+- [Sample code](#-sample-code)
+
 ## 🤳 Introduction
 
 The iProov Xamarin SDK enables you to integrate iProov into your Xamarin.iOS or Xamarin.Android project. This SDK wraps iProov's existing native [iOS](https://github.com/iProov/ios) (Swift) and [Android](https://github.com/iProov/android) (Java) SDKs behind a .NET interface for use from within your Xamarin app.
@@ -14,7 +25,7 @@ The iProov Xamarin SDK is currently a customer preview, which means that there m
 
 We are currently examining the possibility of providing cross-platform support for Xamarin.Forms. For the time being, you are able to use the Xamarin.iOS and Xamarin.Android SDKs to produce cross-platform apps by writing the relevant platform-specific code.
 
-## 📖 Contents
+## 📦 Repository contents
 
 The iProov Xamarin SDK is provided via this repository, which contains the following:
 
@@ -23,9 +34,17 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 - **APIClient** - C# project with the source code for the .NET API Client
 - **WaterlooBank** - Sample code demonstrating use of the Xamarin.iOS & Xamarin.Android bindings together with the .NET API Client
 
-## 🍏 iOS
+## ⬆️ Upgrading from earlier versions
 
-1. Add the "NuGet Packages" directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
+If you're already using an older version of the Xamarin SDK, consult the [Upgrade Guide](https://github.com/iProov/xamarin/wiki/Upgrade-Guide) for detailed information about how to upgrade your app.
+
+## ✍️ Registration
+
+You can obtain API credentials by registering on the [iProov Partner Portal](https://www.iproov.net).
+
+## 🍏 Xamarin.iOS
+
+1. Add the [NuGet Packages](https://github.com/iProov/xamarin/tree/master/NuGet%20Packages) directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
 
 2. Add the **iProov.iOS** NuGet package to your Xamarin project. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
@@ -71,9 +90,9 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 	
 👉 You should now familiarise yourself with the [iProov iOS SDK documentation](https://github.com/iProov/ios) which provides comprehensive details about the available customization options and other important details regarding the iOS SDK usage.
 
-## 🤖 Android
+## 🤖 Xamarin.Android
 
-1. Add the "NuGet Packages" directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
+1. Add the [NuGet Packages](https://github.com/iProov/xamarin/tree/master/NuGet%20Packages) directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
 
 2. Add the **iProov.Android** NuGet package to your Xamarin project. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
@@ -133,10 +152,32 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 	
 	> Alternatively you could just implement `IProov.IListener` on your `Activity` class.
 	
-6. You can now launch iProov by calling:
+6. You must register the iProov listener when your Activity is created:
 
 	```csharp
-	IProov.Launch(this, token, listener);
+	protected override void OnCreate(Bundle savedInstanceState)
+	{
+		base.OnCreate(savedInstanceState);
+		IProov.RegisterListener(listener);
+		
+		// ...continue your activity setup ...
+	}
+	```
+	
+	...and unregister it when destroyed:
+	
+	```csharp
+	protected override void OnDestroy()
+	{
+		IProov.UnregisterListener();
+		base.OnDestroy();
+	}
+	```
+
+7. You can now launch iProov by calling:
+
+	```csharp
+	IProov.Launch(this, token, new IProov.Options());
 	```
 	
 	> This will by default use iProov's EU platform for streaming. You can stream to an alternative endpoint by passing a streaming URL as the second parameter.
@@ -145,9 +186,9 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 
 ## 🌎 API Client
 
-The .NET API client provides a convenient wrapper to call iProov's REST API v2 from a .NET Standard Library. It is a useful tool to assist with testing, debugging and demos, but should not be used in production apps.
+The .NET API client provides a convenient wrapper to call iProov's REST API v2 from a .NET Standard Library. It is a useful tool to assist with testing, debugging and demos, but should not be used in production mobile apps. You could also adapt this code to run on your back-end to perform server-to-server calls.
 
-⚠️ Use of the .NET API Client requires providing it with your API secret. **You should never embed your API secret within a production app.**
+> ⚠️ **SECURITY NOTICE:** Use of the .NET API Client requires providing it with your API secret. **You should never embed your API secret within a production app.**
 
 ### Functionality
 
@@ -166,7 +207,7 @@ You will also need to [add](https://docs.microsoft.com/en-us/visualstudio/mac/nu
 
 You can now import the API Client with `using iProov.APIClient;`.
 
-### Usage
+### Usage examples
 
 We will now run through a couple of common use-cases with the API Client. All the API Client source code is provided, so you can understand how it works and adapt it accordingly.
 
@@ -203,7 +244,7 @@ string token = await apiClient.EnrolPhotoAndGetVerifyToken(guid, jpegBytes, Phot
 
 You can now launch the iProov SDK with this token to complete the photo enrolment.
 
-## 🏦 Waterloo Bank sample code
+## 🏦 Sample code
 
 For a simple iProov experience that is ready to run out-of-the-box, check out the [Waterloo Bank sample project](/iProov/xamarin/tree/master/WaterlooBank) for Xamarin.iOS and Xamarin.Android which also makes use of the .NET API Client.
 

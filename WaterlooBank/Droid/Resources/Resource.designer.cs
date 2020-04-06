@@ -2670,10 +2670,10 @@ namespace WaterlooBank.Droid
 			public const int hint_pressed_alpha_material_light = 2131099790;
 			
 			// aapt resource value: 0x7F06008F
-			public const int iproov__activity_horizontal_margin = 2131099791;
+			public const int iproov__prompt_text_size = 2131099791;
 			
 			// aapt resource value: 0x7F060090
-			public const int iproov__activity_vertical_margin = 2131099792;
+			public const int iproov__title_text_size = 2131099792;
 			
 			// aapt resource value: 0x7F060091
 			public const int item_touch_helper_max_drag_scroll_per_frame = 2131099793;
@@ -4385,136 +4385,139 @@ namespace WaterlooBank.Droid
 			public const int iproov__error_streaming = 2131623999;
 			
 			// aapt resource value: 0x7F0E0040
-			public const int iproov__failure_ambiguous_outcome = 2131624000;
+			public const int iproov__face_detector_error = 2131624000;
 			
 			// aapt resource value: 0x7F0E0041
-			public const int iproov__failure_lighting_backlit = 2131624001;
+			public const int iproov__failure_ambiguous_outcome = 2131624001;
 			
 			// aapt resource value: 0x7F0E0042
-			public const int iproov__failure_lighting_face_too_bright = 2131624002;
+			public const int iproov__failure_lighting_backlit = 2131624002;
 			
 			// aapt resource value: 0x7F0E0043
-			public const int iproov__failure_lighting_flash_reflection_too_low = 2131624003;
+			public const int iproov__failure_lighting_face_too_bright = 2131624003;
 			
 			// aapt resource value: 0x7F0E0044
-			public const int iproov__failure_lighting_too_dark = 2131624004;
+			public const int iproov__failure_lighting_flash_reflection_too_low = 2131624004;
 			
 			// aapt resource value: 0x7F0E0045
-			public const int iproov__failure_motion_too_much_mouth_movement = 2131624005;
+			public const int iproov__failure_lighting_too_dark = 2131624005;
 			
 			// aapt resource value: 0x7F0E0046
-			public const int iproov__failure_motion_too_much_movement = 2131624006;
+			public const int iproov__failure_motion_too_much_mouth_movement = 2131624006;
 			
 			// aapt resource value: 0x7F0E0047
-			public const int iproov__failure_network_problem = 2131624007;
+			public const int iproov__failure_motion_too_much_movement = 2131624007;
 			
 			// aapt resource value: 0x7F0E0048
-			public const int iproov__failure_user_timeout = 2131624008;
+			public const int iproov__failure_network_problem = 2131624008;
 			
 			// aapt resource value: 0x7F0E0049
-			public const int iproov__language_file = 2131624009;
+			public const int iproov__failure_user_timeout = 2131624009;
 			
 			// aapt resource value: 0x7F0E004A
-			public const int iproov__message_format = 2131624010;
+			public const int iproov__language_file = 2131624010;
 			
 			// aapt resource value: 0x7F0E004B
-			public const int iproov__message_format_with_username = 2131624011;
+			public const int iproov__message_format = 2131624011;
 			
 			// aapt resource value: 0x7F0E004C
-			public const int iproov__progress_assessing_genuine_presence = 2131624012;
+			public const int iproov__message_format_with_username = 2131624012;
 			
 			// aapt resource value: 0x7F0E004D
-			public const int iproov__progress_confirming_identity = 2131624013;
+			public const int iproov__progress_assessing_genuine_presence = 2131624013;
 			
 			// aapt resource value: 0x7F0E004E
-			public const int iproov__progress_creating_identity = 2131624014;
+			public const int iproov__progress_confirming_identity = 2131624014;
 			
 			// aapt resource value: 0x7F0E004F
-			public const int iproov__progress_finding_face = 2131624015;
+			public const int iproov__progress_creating_identity = 2131624015;
 			
 			// aapt resource value: 0x7F0E0050
-			public const int iproov__progress_identifying_face = 2131624016;
+			public const int iproov__progress_finding_face = 2131624016;
 			
 			// aapt resource value: 0x7F0E0051
-			public const int iproov__progress_loading = 2131624017;
+			public const int iproov__progress_identifying_face = 2131624017;
 			
 			// aapt resource value: 0x7F0E0052
-			public const int iproov__progress_streaming = 2131624018;
+			public const int iproov__progress_loading = 2131624018;
 			
 			// aapt resource value: 0x7F0E0053
-			public const int iproov__progress_streaming_slow = 2131624019;
+			public const int iproov__progress_streaming = 2131624019;
 			
 			// aapt resource value: 0x7F0E0054
-			public const int iproov__prompt_connecting = 2131624020;
+			public const int iproov__progress_streaming_slow = 2131624020;
 			
 			// aapt resource value: 0x7F0E0055
-			public const int iproov__prompt_connecting_slow = 2131624021;
+			public const int iproov__prompt_connecting = 2131624021;
 			
 			// aapt resource value: 0x7F0E0056
-			public const int iproov__prompt_get_ready = 2131624022;
+			public const int iproov__prompt_connecting_slow = 2131624022;
 			
 			// aapt resource value: 0x7F0E0057
-			public const int iproov__prompt_hold_still = 2131624023;
+			public const int iproov__prompt_get_ready = 2131624023;
 			
 			// aapt resource value: 0x7F0E0058
-			public const int iproov__prompt_pitch_too_high = 2131624024;
+			public const int iproov__prompt_hold_still = 2131624024;
 			
 			// aapt resource value: 0x7F0E0059
-			public const int iproov__prompt_pitch_too_low = 2131624025;
+			public const int iproov__prompt_pitch_too_high = 2131624025;
 			
 			// aapt resource value: 0x7F0E005A
-			public const int iproov__prompt_roll_too_high = 2131624026;
+			public const int iproov__prompt_pitch_too_low = 2131624026;
 			
 			// aapt resource value: 0x7F0E005B
-			public const int iproov__prompt_roll_too_low = 2131624027;
+			public const int iproov__prompt_roll_too_high = 2131624027;
 			
 			// aapt resource value: 0x7F0E005C
-			public const int iproov__prompt_scanning = 2131624028;
+			public const int iproov__prompt_roll_too_low = 2131624028;
 			
 			// aapt resource value: 0x7F0E005D
-			public const int iproov__prompt_tap_to_begin = 2131624029;
+			public const int iproov__prompt_scanning = 2131624029;
 			
 			// aapt resource value: 0x7F0E005E
-			public const int iproov__prompt_too_bright = 2131624030;
+			public const int iproov__prompt_tap_to_begin = 2131624030;
 			
 			// aapt resource value: 0x7F0E005F
-			public const int iproov__prompt_too_close = 2131624031;
+			public const int iproov__prompt_too_bright = 2131624031;
 			
 			// aapt resource value: 0x7F0E0060
-			public const int iproov__prompt_too_far = 2131624032;
+			public const int iproov__prompt_too_close = 2131624032;
 			
 			// aapt resource value: 0x7F0E0061
-			public const int iproov__prompt_yaw_too_high = 2131624033;
+			public const int iproov__prompt_too_far = 2131624033;
 			
 			// aapt resource value: 0x7F0E0062
-			public const int iproov__prompt_yaw_too_low = 2131624034;
+			public const int iproov__prompt_yaw_too_high = 2131624034;
 			
 			// aapt resource value: 0x7F0E0063
-			public const int iproov__starting_detector = 2131624035;
+			public const int iproov__prompt_yaw_too_low = 2131624035;
 			
 			// aapt resource value: 0x7F0E0064
-			public const int mtrl_chip_close_icon_content_description = 2131624036;
+			public const int iproov__starting_detector = 2131624036;
 			
 			// aapt resource value: 0x7F0E0065
-			public const int password_toggle_content_description = 2131624037;
+			public const int mtrl_chip_close_icon_content_description = 2131624037;
 			
 			// aapt resource value: 0x7F0E0066
-			public const int path_password_eye = 2131624038;
+			public const int password_toggle_content_description = 2131624038;
 			
 			// aapt resource value: 0x7F0E0067
-			public const int path_password_eye_mask_strike_through = 2131624039;
+			public const int path_password_eye = 2131624039;
 			
 			// aapt resource value: 0x7F0E0068
-			public const int path_password_eye_mask_visible = 2131624040;
+			public const int path_password_eye_mask_strike_through = 2131624040;
 			
 			// aapt resource value: 0x7F0E0069
-			public const int path_password_strike_through = 2131624041;
+			public const int path_password_eye_mask_visible = 2131624041;
 			
 			// aapt resource value: 0x7F0E006A
-			public const int search_menu_title = 2131624042;
+			public const int path_password_strike_through = 2131624042;
 			
 			// aapt resource value: 0x7F0E006B
-			public const int status_bar_notification_info_overflow = 2131624043;
+			public const int search_menu_title = 2131624043;
+			
+			// aapt resource value: 0x7F0E006C
+			public const int status_bar_notification_info_overflow = 2131624044;
 			
 			static String()
 			{

@@ -28,6 +28,8 @@ namespace WaterlooBank.Droid
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            IProov.RegisterListener(listener);
+
             // Get our button from the layout resource,
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.myButton);
@@ -35,8 +37,14 @@ namespace WaterlooBank.Droid
             button.Click += async delegate {
                 var userId = Guid.NewGuid().ToString(); // Generate a random User ID
                 var token = await apiClient.GetToken(ClaimType.enrol, userId);
-                IProov.Launch(this, token, listener);
+                IProov.Launch(this, token, new IProov.Options());
             };
+        }
+
+        protected override void OnDestroy()
+        {
+            IProov.UnregisterListener();
+            base.OnDestroy();
         }
 
         private class IProovListener : Java.Lang.Object, IProov.IListener
