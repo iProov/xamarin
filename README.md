@@ -44,15 +44,13 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 ## 🍏 Xamarin.iOS
 
-1. Add the [NuGet Packages](https://github.com/iProov/xamarin/tree/master/NuGet%20Packages) directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
+1. Using the NuGet Package Manager, add the [iProov.iOS](https://www.nuget.org/packages/iProov.iOS/) package to your Xamarin project. For further instructions on how to do this, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
-2. Add the **iProov.iOS** NuGet package to your Xamarin project. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
+2. Add a "Privacy - Camera Usage Description" entry to your Info.plist file with the reason why your app requires camera access (e.g. "To iProov you in order to verify your identity.")
 
-3. Add a "Privacy - Camera Usage Description" entry to your Info.plist file with the reason why your app requires camera access (e.g. "To iProov you in order to verify your identity.")
+3. Import the package into your project with `using iProov.iOS;`.
 
-4. Import the package into your project with `using iProov.iOS;`.
-
-5. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
+4. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
 
 	```csharp
 	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new Options(),
@@ -92,11 +90,9 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 ## 🤖 Xamarin.Android
 
-1. Add the [NuGet Packages](https://github.com/iProov/xamarin/tree/master/NuGet%20Packages) directory to your Visual Studio Nuget package sources. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#adding-package-sources).
+1. Using the NuGet Package Manager, add the [iProov.Android](https://www.nuget.org/packages/iProov.Android/) package to your Xamarin project. For further instructions on how to do this, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
-2. Add the **iProov.Android** NuGet package to your Xamarin project. For further information, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
-
-3. Open your project's .csproj file in a text editor and add the following inside each `<PropertyGroup>` block:
+2. Open your project's .csproj file in a text editor and add the following inside each `<PropertyGroup>` block:
 
 	```xml
 	<AndroidDexTool>d8</AndroidDexTool>
@@ -104,9 +100,9 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	This will enable the use of Java 8 language features which are required by iProov.Android.
 
-4. Import the package into your project with `using iProov.Android;`.
+3. Import the package into your project with `using iProov.Android;`.
 
-5. Create a private class which implements `IProov.IListener` to handle the callbacks from the Android SDK:
+4. Create a private class which implements `IProov.IListener` to handle the callbacks from the Android SDK:
 
 	```csharp
 	private IProovListener listener = new IProovListener();
@@ -152,7 +148,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	> Alternatively you could just implement `IProov.IListener` on your `Activity` class.
 	
-6. You must register the iProov listener when your Activity is created:
+5. You must register the iProov listener when your Activity is created:
 
 	```csharp
 	protected override void OnCreate(Bundle savedInstanceState)
@@ -174,7 +170,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	}
 	```
 
-7. You can now launch iProov by calling:
+6. You can now launch iProov by calling:
 
 	```csharp
 	IProov.Launch(this, token, new IProov.Options());
