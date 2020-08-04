@@ -36,7 +36,7 @@ namespace WaterlooBank.Droid
 
             button.Click += async delegate {
                 var userId = Guid.NewGuid().ToString(); // Generate a random User ID
-                var token = await apiClient.GetToken(ClaimType.enrol, userId);
+                var token = await apiClient.GetToken(iProov.APIClient.ClaimType.enrol, userId);
                 IProov.Launch(this, token, new IProov.Options());
             };
         }

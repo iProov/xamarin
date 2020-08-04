@@ -119,7 +119,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 		public void OnError(IProovException error)
 		{
 			// The user was not successfully verified/enrolled due to an error (e.g. lost internet connection)
-			// along with an `iProovError` with more information about the error (NSError in Objective-C).
+			// along with an IProovException.
 			// It will be called once, or never.
 		}
 		
