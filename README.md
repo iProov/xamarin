@@ -1,31 +1,29 @@
-# iProov Xamarin SDK (Preview)
+![iProov: Flexible authentication for identity assurance](images/banner.jpg)
 
-## 📖 Table of contents
+# iProov Biometrics Xamarin SDK
 
-- [Introduction](#-introduction)
-- [Repository contents](#-repository-contents)
-- [Upgrading from earlier versions](#-upgrading-from-earlier-versions)
-- [Registration](#-registration)
-- [Xamarin.iOS](#-xamarin--ios)
-- [Xamarin.Android](#-xamarin--android)
-- [API Client](#-api-client)
-- [Sample code](#-sample-code)
+## Table of contents
 
-## 🤳 Introduction
+- [Introduction](#introduction)
+- [Repository contents](#repository-contents)
+- [Upgrading from earlier versions](#upgrading-from-earlier-versions)
+- [Registration](#registration)
+- [Xamarin.iOS](#xamarin--ios)
+- [Xamarin.Android](#xamarin--android)
+- [API Client](#api-client)
+- [Sample code](#sample-code)
+
+## Introduction
 
 The iProov Xamarin SDK enables you to integrate iProov into your Xamarin.iOS or Xamarin.Android project. This SDK wraps iProov's existing native [iOS](https://github.com/iProov/ios) (Swift) and [Android](https://github.com/iProov/android) (Java) SDKs behind a .NET interface for use from within your Xamarin app.
 
 We also provide a .NET API Client written in C# to call our [REST API v2](https://eu.rp.secure.iproov.me/docs.html) from a .NET Standard Library, which can be used from your Xamarin app to request tokens directly from the iProov API (note that this is not a secure way of getting tokens, and should only be used for demo/debugging purposes).
 
-### Preview
-
-The iProov Xamarin SDK is currently a customer preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact [support@iproov.com](mailto:support@iproov.com) to provide your feedback regarding the iProov Xamarin SDK preview.
-
 ### Xamarin.Forms
 
 We are currently examining the possibility of providing cross-platform support for Xamarin.Forms. For the time being, you are able to use the Xamarin.iOS and Xamarin.Android SDKs to produce cross-platform apps by writing the relevant platform-specific code.
 
-## 📦 Repository contents
+## Repository contents
 
 The iProov Xamarin SDK is provided via this repository, which contains the following:
 
@@ -34,15 +32,15 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 - **APIClient** - C# project with the source code for the .NET API Client
 - **WaterlooBank** - Sample code demonstrating use of the Xamarin.iOS & Xamarin.Android bindings together with the .NET API Client
 
-## ⬆️ Upgrading from earlier versions
+## Upgrading from earlier versions
 
 If you're already using an older version of the Xamarin SDK, consult the [Upgrade Guide](https://github.com/iProov/xamarin/wiki/Upgrade-Guide) for detailed information about how to upgrade your app.
 
-## ✍️ Registration
+## Registration
 
 You can obtain API credentials by registering on the [iProov Partner Portal](https://www.iproov.net).
 
-## 🍏 Xamarin.iOS
+## Xamarin.iOS
 
 1. Using the NuGet Package Manager, add the [iProov.iOS](https://www.nuget.org/packages/iProov.iOS/) package to your Xamarin project. For further instructions on how to do this, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
@@ -53,27 +51,41 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 4. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
 
 	```csharp
-	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new Options(),
+	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new Options(), // Substitute streaming URL as appropriate
+		    connecting: () =>
+		    {
+				// The SDK is connecting to the server. You should provide an indeterminate progress indicator
+				// to let the user know that the connection is taking place.
+		    },
+		    connected: () =>
+		    {
+				// The SDK has connected, and the iProov user interface will now be displayed. You should hide
+				// any progress indication at this point.
+		    },
 		    processing: (progress, message) =>
 		    {
 				// The SDK will update your app with the progress of streaming to the server and authenticating
 				// the user. This will be called multiple time as the progress updates.
 		    },
-		    success: (theToken) =>
+		    success: (result) =>
 		    {
 				// The user was successfully verified/enrolled and the token has been validated.
-				// The token passed back will be the same as the one passed in to the original call.
+				// You can access the following properties:
+				var token = result.Token; // The token passed back will be the same as the one passed in to the original call
+				var frame = result.Frame; // An optional image containing a single frame of the user, if enabled for your service provider
 		    },
 		    cancelled: () =>
 		    {
 				// The user cancelled iProov, either by pressing the close button at the top right, or sending
 				// the app to the background.
 		    },
-		    failure: (reason, feedbackCode) =>
+		    failure: (result) =>
 		    {
 				// The user was not successfully verified/enrolled, as their identity could not be verified,
 				// or there was another issue with their verification/enrollment. A reason (as a string)
 				// is provided as to why the claim failed, along with a feedback code from the back-end.
+				var feedbackCode = result.FeedbackCode;
+				var reason = result.Reason;
 		    },
 		    error: (error) =>
 		    {
@@ -84,11 +96,9 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	);
 	```
 	
-	> If you wish to stream to a back-end other than our EU platform, you should pass the appropriate streaming URL as the first parameter.
-	
 👉 You should now familiarise yourself with the [iProov iOS SDK documentation](https://github.com/iProov/ios) which provides comprehensive details about the available customization options and other important details regarding the iOS SDK usage.
 
-## 🤖 Xamarin.Android
+## Xamarin.Android
 
 1. Using the NuGet Package Manager, add the [iProov.Android](https://www.nuget.org/packages/iProov.Android/) package to your Xamarin project. For further instructions on how to do this, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
@@ -110,6 +120,18 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	private class IProovListener : Java.Lang.Object, IProov.IListener
 	{
 	
+		public void OnConnected()
+		{
+	   		// Called when the SDK is connecting to the server. You should provide an indeterminate
+	   		// progress indication to let the user know that the connection is being established.
+		}
+
+		public void OnConnecting()
+		{
+	   		// The SDK has connected, and the iProov user interface will now be displayed. You
+	   		// should hide any progress indication at this point.
+		}
+            
 		public void OnCancelled()
 		{
 	   		// The user cancelled iProov, either by pressing the close button at the top right, or pressing
@@ -123,11 +145,14 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 			// It will be called once, or never.
 		}
 		
-		public void OnFailure(string reason, string feedbackCode)
+		public void OnFailure(IProov.FailureResult result)
 		{
 			// The user was not successfully verified/enrolled, as their identity could not be verified,
 			// or there was another issue with their verification/enrollment. A reason (as a string)
 			// is provided as to why the claim failed, along with a feedback code from the back-end.
+			
+			var feedbackCode = result.FeedbackCode;
+			var reason = result.Reason;
 		}
 		
 		public void OnProcessing(double progress, string message)
@@ -136,10 +161,12 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 			// the user. This will be called multiple time as the progress updates.
 		}
 		
-		public void OnSuccess(string token)
+		public void OnSuccess(IProov.SuccessResult result)
 		{
 			// The user was successfully verified/enrolled and the token has been validated.
 			// The token passed back will be the same as the one passed in to the original call.
+			
+			var token = result.Token;
 		}
 	
 	}
@@ -165,7 +192,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	```csharp
 	protected override void OnDestroy()
 	{
-		IProov.UnregisterListener();
+		IProov.UnregisterListener(listener);
 		base.OnDestroy();
 	}
 	```
@@ -173,14 +200,12 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 6. You can now launch iProov by calling:
 
 	```csharp
-	IProov.Launch(this, token, new IProov.Options());
+	IProov.Launch(this, "https://eu.rp.secure.iproov.me/", token, new IProov.Options()); // Substitute the streaming URL as appropriate
 	```
-	
-	> This will by default use iProov's EU platform for streaming. You can stream to an alternative endpoint by passing a streaming URL as the second parameter.
 	
 👉 You should now familiarise yourself with the [iProov Android SDK documentation](https://github.com/iProov/android) which provides comprehensive details about the available customization options and other important details regarding the iOS SDK usage.
 
-## 🌎 API Client
+## API Client
 
 The .NET API client provides a convenient wrapper to call iProov's REST API v2 from a .NET Standard Library. It is a useful tool to assist with testing, debugging and demos, but should not be used in production mobile apps. You could also adapt this code to run on your back-end to perform server-to-server calls.
 
@@ -209,10 +234,12 @@ We will now run through a couple of common use-cases with the API Client. All th
 
 #### Getting a token
 
-The most basic thing you can do with the API Client is get a token to either enrol or verify a user. This is achieved as follows:
+The most basic thing you can do with the API Client is get a token to either enrol or verify a user, using either iProov's Genuine Presence Assurance or Liveness Assurance.
+
+This is achieved as follows:
 
 ```csharp
-var token = await apiClient.GetToken(ClaimType.enrol, "{{ user id }}");
+var token = await apiClient.GetToken(AssuranceType.GenuinePresence, ClaimType.Enrol, "{{ user id }}");
 ```
 
 You can then launch the iProov SDK with this token.
@@ -240,7 +267,7 @@ string token = await apiClient.EnrolPhotoAndGetVerifyToken(guid, jpegBytes, Phot
 
 You can now launch the iProov SDK with this token to complete the photo enrolment.
 
-## 🏦 Sample code
+## Sample code
 
 For a simple iProov experience that is ready to run out-of-the-box, check out the [Waterloo Bank sample project](/iProov/xamarin/tree/master/WaterlooBank) for Xamarin.iOS and Xamarin.Android which also makes use of the .NET API Client.
 

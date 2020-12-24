@@ -1,22 +1,83 @@
-﻿using System;
-using System.Net.Http;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace iProov.APIClient
 {
     public enum ClaimType
     {
-        verify = 1,
-        enrol = 2
+        Verify,
+        Enrol
     }
 
     public enum PhotoSource
     {
-        eid,
-        oid
+        EID,
+        OID,
+        Selfie
+    }
+
+    public enum AssuranceType
+    {
+        GenuinePresence,
+        Liveness
+    }
+
+    static class EnumExtensions
+    {
+
+        public static string toInternalString(this ClaimType claimType)
+        {
+            switch (claimType)
+            {
+                case ClaimType.Verify:
+                    return "verify";
+
+                case ClaimType.Enrol:
+                    return "enrol";
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static string toInternalString(this PhotoSource photoSource)
+        {
+            switch (photoSource)
+            {
+                case PhotoSource.EID:
+                    return "eid";
+
+                case PhotoSource.OID:
+                    return "oid";
+                    
+                case PhotoSource.Selfie:
+                    return "selfie";
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+
+        public static string toInternalString(this AssuranceType assuranceType)
+        {
+            switch (assuranceType)
+            {
+                case AssuranceType.GenuinePresence:
+                    return "genuine_presence";
+
+                case AssuranceType.Liveness:
+                    return "liveness";
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 
     public class APIClient
@@ -40,11 +101,12 @@ namespace iProov.APIClient
             httpClient.DefaultRequestHeaders.Add("User-Agent", ".NET Standard Library");
         }
 
-        public async Task<string> GetToken(ClaimType type, string userID)
+        public async Task<string> GetToken(AssuranceType assuranceType, ClaimType type, string userID)
         {
 
-            Dictionary<string, string> request = new Dictionary<string, string>
+            var request = new Dictionary<string, string>
             {
+                { "assurance_type", assuranceType.toInternalString() },
                 { "api_key", apiKey },
                 { "secret", secret },
                 { "resource", appID },
@@ -52,25 +114,24 @@ namespace iProov.APIClient
                 { "user_id", userID }
             };
 
-            string json = JsonConvert.SerializeObject(request);
+            var json = JsonConvert.SerializeObject(request);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await httpClient.PostAsync($"{baseURL}/claim/{type}/token", content);
+            var response = await httpClient.PostAsync($"{baseURL}/claim/{type.toInternalString()}/token", content);
             response.EnsureSuccessStatusCode();
 
-            string responseContent = await response.Content.ReadAsStringAsync();
-
-            Dictionary<string, object> responseDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
 
             return (string)responseDict["token"];
         }
 
-        public async Task<string> EnrolPhoto(string token, byte[] jpegImage, PhotoSource source)
+        public async Task<bool> EnrolPhoto(string token, byte[] jpegImage, PhotoSource source)
         {
             var fileContent = new ByteArrayContent(jpegImage);
 
-            MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
+            var multipartFormData = new MultipartFormDataContent();
             multipartFormData.Add(new StringContent(apiKey), "api_key");
             multipartFormData.Add(new StringContent(secret), "secret");
             multipartFormData.Add(new StringContent("0"), "rotation");
@@ -78,20 +139,17 @@ namespace iProov.APIClient
             multipartFormData.Add(fileContent, "image", "image.jpg");
             multipartFormData.Add(new StringContent(source.ToString()), "source");
 
-            HttpResponseMessage response = await httpClient.PostAsync($"{baseURL}/claim/enrol/image", multipartFormData);
+            var response = await httpClient.PostAsync($"{baseURL}/claim/enrol/image", multipartFormData);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
 
-            response.EnsureSuccessStatusCode();
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            Dictionary<string, object> responseDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
-
-            return (string)responseDict["token"];
+            return responseDict.ContainsKey("success") && bool.Parse(responseDict["success"]);
         }
 
         // TODO: Turn into a proper ValidationResult
         public async Task<Dictionary<string, object>> Validate(string token, string userID)
         {
-            Dictionary<string, string> request = new Dictionary<string, string>
+            var request = new Dictionary<string, string>
             {
                 { "api_key", apiKey },
                 { "secret", secret },
@@ -101,26 +159,46 @@ namespace iProov.APIClient
                 { "client", appID }
             };
 
-            string json = JsonConvert.SerializeObject(request);
+            var json = JsonConvert.SerializeObject(request);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await httpClient.PostAsync($"{baseURL}/claim/verify/validate", content);
+            var response = await httpClient.PostAsync($"{baseURL}/claim/verify/validate", content);
             response.EnsureSuccessStatusCode();
 
-            string responseContent = await response.Content.ReadAsStringAsync();
-            Dictionary<string, object> responseDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseContent);
 
             return responseDict;
         }
 
         public async Task<string> EnrolPhotoAndGetVerifyToken(string userID, byte[] jpegImage, PhotoSource source)
         {
-            var enrolToken = await GetToken(ClaimType.enrol, userID);
+            var enrolToken = await GetToken(AssuranceType.GenuinePresence, ClaimType.Enrol, userID);
             await EnrolPhoto(enrolToken, jpegImage, source);
-            return await GetToken(ClaimType.verify, userID);
+            return await GetToken(AssuranceType.GenuinePresence, ClaimType.Verify, userID);
         }
 
-    }
+        public async Task<string> GetOAuthToken(string username, string password)
+        {
+            var authHeader = Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ':' + password));
+            var authType = new Dictionary<string, string>
+            {
+                { "grant_type", "client_credentials" },
+                { "scope", "user-write" }
+            };
 
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{baseURL}/{apiKey}/access_token");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+            request.Content = new FormUrlEncodedContent(authType);
+
+            var response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
+
+            return responseDict["access_token"];
+        }
+    }
 }

@@ -28,29 +28,37 @@ namespace WaterlooBank.iOS
             Button.TouchUpInside += async delegate
             {
                 var userId = Guid.NewGuid().ToString(); // Generate a random User ID
-                var token = await apiClient.GetToken(ClaimType.enrol, userId);
+                var token = await apiClient.GetToken(AssuranceType.GenuinePresence, ClaimType.Enrol, userId);
 
                 IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new Options(),
-                processing: (progress, message) =>
-                {
-                    Console.WriteLine(progress);
-                },
-                success: (theToken) =>
-                {
-                    Console.WriteLine("Success");
-                },
-                cancelled: () =>
-                {
-                    Console.WriteLine("Cancelled");
-                },
-                failure: (reason, feedbackCode) =>
-                {
-                    Console.WriteLine(reason);
-                },
-                error: (error) =>
-                {
-                    Console.WriteLine(error);
-                });
+                    connecting: () =>
+                    {
+                        Console.WriteLine("Connecting...");
+                    },
+                    connected: () =>
+                    {
+                        Console.WriteLine("Connected");
+                    },
+                    processing: (progress, message) =>
+                    {
+                        Console.WriteLine(progress);
+                    },
+                    success: (result) =>
+                    {
+                        Console.WriteLine("Success");
+                    },
+                    cancelled: () =>
+                    {
+                        Console.WriteLine("Cancelled");
+                    },
+                    failure: (result) =>
+                    {
+                        Console.WriteLine(result.Reason);
+                    },
+                    error: (error) =>
+                    {
+                        Console.WriteLine(error);
+                    });
             };
         }
 

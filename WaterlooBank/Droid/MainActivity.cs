@@ -36,19 +36,29 @@ namespace WaterlooBank.Droid
 
             button.Click += async delegate {
                 var userId = Guid.NewGuid().ToString(); // Generate a random User ID
-                var token = await apiClient.GetToken(iProov.APIClient.ClaimType.enrol, userId);
-                IProov.Launch(this, token, new IProov.Options());
+                var token = await apiClient.GetToken(AssuranceType.GenuinePresence, ClaimType.Enrol, userId);
+                IProov.Launch(this, "https://eu.rp.secure.iproov.me/", token, new IProov.Options());
             };
         }
 
         protected override void OnDestroy()
         {
-            IProov.UnregisterListener();
+            IProov.UnregisterListener(listener);
             base.OnDestroy();
         }
 
         private class IProovListener : Java.Lang.Object, IProov.IListener
         {
+
+            public void OnConnected()
+            {
+                Console.WriteLine("Connecting...");
+            }
+
+            public void OnConnecting()
+            {
+                Console.WriteLine("Connected");
+            }
 
             public void OnCancelled()
             {
@@ -60,9 +70,9 @@ namespace WaterlooBank.Droid
                 Console.WriteLine("Error: " + error.Message);
             }
 
-            public void OnFailure(string reason, string feedbackCode)
+            public void OnFailure(IProov.FailureResult result)
             {
-                Console.WriteLine("Failure: " + reason);
+                Console.WriteLine("Failure: " + result.Reason);
             }
 
             public void OnProcessing(double progress, string message)
@@ -70,11 +80,10 @@ namespace WaterlooBank.Droid
                 Console.WriteLine(message);
             }
 
-            public void OnSuccess(string token)
+            public void OnSuccess(IProov.SuccessResult result)
             {
                 Console.WriteLine("Success");
             }
-
         }
 
     }
