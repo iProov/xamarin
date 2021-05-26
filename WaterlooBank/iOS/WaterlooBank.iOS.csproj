@@ -79,10 +79,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="iProov">
-      <HintPath>..\packages\iProov.iOS.8.2.2\lib\xamarinios10\iProov.dll</HintPath>
+      <HintPath>..\packages\iProov.iOS.8.4.0\lib\xamarinios10\iProov.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing.Common.dll" />
   </ItemGroup>
