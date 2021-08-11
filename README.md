@@ -21,7 +21,9 @@ We also provide a .NET API Client written in C# to call our [REST API v2](https:
 
 ### Xamarin.Forms
 
-We are currently examining the possibility of providing cross-platform support for Xamarin.Forms. For the time being, you are able to use the Xamarin.iOS and Xamarin.Android SDKs to produce cross-platform apps by writing the relevant platform-specific code.
+We are examining the possibility of providing cross-platform support for Xamarin.Forms. For the time being, you are able to use the Xamarin.iOS and Xamarin.Android SDKs to produce cross-platform apps by writing the relevant platform-specific code.
+
+If you are interested in support for Xamarin.Forms, please [contact us](mailto:support@iproov.com).
 
 ## Repository contents
 
@@ -30,7 +32,7 @@ The iProov Xamarin SDK is provided via this repository, which contains the follo
 - **README.md** - This document
 - **NuGet Packages** - Directory containing the NuGet packages for Xamarin.iOS & Xamarin.Android
 - **APIClient** - C# project with the source code for the .NET API Client
-- **WaterlooBank** - Sample code demonstrating use of the Xamarin.iOS & Xamarin.Android bindings together with the .NET API Client
+- **Example** - Sample code demonstrating use of the Xamarin.iOS & Xamarin.Android bindings together with the .NET API Client
 
 ## Upgrading from earlier versions
 
@@ -51,7 +53,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 4. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
 
 	```csharp
-	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new Options(), // Substitute streaming URL as appropriate
+	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new IPOptions(), // Substitute streaming URL as appropriate
 		    connecting: () =>
 		    {
 				// The SDK is connecting to the server. You should provide an indeterminate progress indicator
@@ -103,17 +105,9 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 1. Using the NuGet Package Manager, add the [iProov.Android](https://www.nuget.org/packages/iProov.Android/) package to your Xamarin project. For further instructions on how to do this, [see here](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough?toc=%2Fnuget%2Ftoc.json&view=vsmac-2019#find-and-install-a-package).
 
-2. Open your project's .csproj file in a text editor and add the following inside each `<PropertyGroup>` block:
+2. Import the package into your project with `using iProov.Android;`.
 
-	```xml
-	<AndroidDexTool>d8</AndroidDexTool>
-	```
-	
-	This will enable the use of Java 8 language features which are required by iProov.Android.
-
-3. Import the package into your project with `using iProov.Android;`.
-
-4. Create a private class which implements `IProov.IListener` to handle the callbacks from the Android SDK:
+3. Create a private class which implements `IProov.IListener` to handle the callbacks from the Android SDK:
 
 	```csharp
 	private IProovListener listener = new IProovListener();
@@ -176,7 +170,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	> Alternatively you could just implement `IProov.IListener` on your `Activity` class.
 	
-5. You must register the iProov listener when your Activity is created:
+4. You must register the iProov listener when your Activity is created:
 
 	```csharp
 	protected override void OnCreate(Bundle savedInstanceState)
@@ -198,7 +192,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	}
 	```
 
-6. You can now launch iProov by calling:
+5. You can now launch iProov by calling:
 
 	```csharp
 	IProov.Launch(this, "https://eu.rp.secure.iproov.me/", token, new IProov.Options()); // Substitute the streaming URL as appropriate
@@ -270,13 +264,13 @@ You can now launch the iProov SDK with this token to complete the photo enrolmen
 
 ## Sample code
 
-For a simple iProov experience that is ready to run out-of-the-box, check out the [Waterloo Bank sample project](/iProov/xamarin/tree/master/WaterlooBank) for Xamarin.iOS and Xamarin.Android which also makes use of the .NET API Client.
+For a simple iProov experience that is ready to run out-of-the-box, check out the [Example  project](/iProov/xamarin/tree/master/Example) for Xamarin.iOS and Xamarin.Android which also makes use of the .NET API Client.
 
 ### Usage
 
-1. Open the Waterloo Bank solution in Visual Studio.
+1. Open the Example solution in Visual Studio.
 2. Right click the root project and "Restore NuGet Packages" to ensure all NuGet packages are ready for usage.
-3. Add your API key & secret to ViewController.cs (for WaterlooBank.iOS) and MainActivity.cs (for WaterlooBank.Droid).
-4. Run the WaterlooBank.iOS or WaterlooBank.Droid project on a supported iOS or Android device respectively.
+3. Add your API key & secret to Credentials.cs in the Shared project.
+4. Run the iOSExample or AndroidExample project on a supported iOS or Android device respectively.
 
 > NOTE: iProov is not supported on the iOS or Android simulator, you must use a physical device in order to iProov.
