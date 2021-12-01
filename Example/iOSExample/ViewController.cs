@@ -35,10 +35,10 @@ namespace iOSExample
                     ClaimType.Enrol, // Choose between Enrol or Verify
                     userId); // Pass the User ID
 
-                IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new IPOptions(),
+                IProov.LaunchWithStreamingURL(Credentials.BASE_URL, token, new IPOptions(),
                     connecting: () =>
                     {
-                        BTProgressHUD.Show("Connecting...", maskType: ProgressHUD.MaskType.Black);
+                        BTProgressHUD.Show("Connecting...", maskType: MaskType.Black);
                     },
                     connected: () =>
                     {
@@ -46,11 +46,11 @@ namespace iOSExample
                     },
                     processing: (progress, message) =>
                     {
-                        BTProgressHUD.Show(message, (float) progress, maskType: ProgressHUD.MaskType.Black);
+                        BTProgressHUD.Show(message, (float) progress, maskType: MaskType.Black);
                     },
                     success: (result) =>
                     {
-                        BTProgressHUD.ShowSuccessWithStatus("Success!", maskType: ProgressHUD.MaskType.Black);
+                        BTProgressHUD.ShowSuccessWithStatus("Success!", maskType: MaskType.Black);
                     },
                     cancelled: () =>
                     {
@@ -58,11 +58,11 @@ namespace iOSExample
                     },
                     failure: (result) =>
                     {
-                        BTProgressHUD.ShowErrorWithStatus(result.Reason, maskType: ProgressHUD.MaskType.Black);
+                        BTProgressHUD.ShowErrorWithStatus(result.Reason, maskType: MaskType.Black);
                     },
                     error: (error) =>
                     {
-                        BTProgressHUD.ShowErrorWithStatus(error.LocalizedDescription, maskType: ProgressHUD.MaskType.Black);
+                        BTProgressHUD.ShowErrorWithStatus(error.LocalizedDescription, maskType: MaskType.Black);
                     });
             };
         }
