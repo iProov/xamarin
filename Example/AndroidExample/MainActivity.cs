@@ -11,10 +11,11 @@ using AndroidHUD;
 using Shared;
 using iProov.APIClient;
 using iProov.Android;
+using Android.Content.PM;
 
 namespace AndroidExample
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
 
@@ -45,7 +46,7 @@ namespace AndroidExample
                     AssuranceType.GenuinePresence, // Choose between GenuinePresence or Liveness
                     ClaimType.Enrol, // Choose between Enrol or Verify
                     userId); // Pass the User ID
-                IProov.Launch(this, "https://eu.rp.secure.iproov.me/", token, new IProov.Options());
+                IProov.Launch(this, Credentials.BASE_URL, token, new IProov.Options());
             };
         }
 
@@ -89,7 +90,7 @@ namespace AndroidExample
 
             public void OnError(IProovException error)
             {
-                AndHUD.Shared.ShowErrorWithStatus(context, error.Message, timeout: TimeSpan.FromSeconds(1));
+                AndHUD.Shared.ShowErrorWithStatus(context, error.Reason, timeout: TimeSpan.FromSeconds(1));
             }
 
             public void OnFailure(IProov.FailureResult result)
