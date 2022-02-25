@@ -35,7 +35,10 @@ namespace iOSExample
                     ClaimType.Enrol, // Choose between Enrol or Verify
                     userId); // Pass the User ID
 
-                IProov.LaunchWithStreamingURL(Credentials.BASE_URL, token, new IPOptions(),
+                var options = new IPOptions();
+                options.Ui.FloatingPromptEnabled = true;
+
+                IProov.LaunchWithStreamingURL(Credentials.BASE_URL, token, options,
                     connecting: () =>
                     {
                         BTProgressHUD.Show("Connecting...", maskType: MaskType.Black);
