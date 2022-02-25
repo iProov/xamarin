@@ -46,7 +46,11 @@ namespace AndroidExample
                     AssuranceType.GenuinePresence, // Choose between GenuinePresence or Liveness
                     ClaimType.Enrol, // Choose between Enrol or Verify
                     userId); // Pass the User ID
-                IProov.Launch(this, Credentials.BASE_URL, token, new IProov.Options());
+
+                var options = new IProov.Options();
+                options.Ui.FloatingPromptEnabled = true;
+
+                IProov.Launch(this, Credentials.BASE_URL, token, options);
             };
         }
 
