@@ -19,12 +19,6 @@ The iProov Xamarin SDK enables you to integrate iProov into your Xamarin.iOS or 
 
 We also provide a .NET API Client written in C# to call our [REST API v2](https://eu.rp.secure.iproov.me/docs.html) from a .NET Standard Library, which can be used from your Xamarin app to request tokens directly from the iProov API (note that this is not a secure way of getting tokens, and should only be used for demo/debugging purposes).
 
-### Xamarin.Forms
-
-We are examining the possibility of providing cross-platform support for Xamarin.Forms. For the time being, you are able to use the Xamarin.iOS and Xamarin.Android SDKs to produce cross-platform apps by writing the relevant platform-specific code.
-
-If you are interested in support for Xamarin.Forms, please [contact us](mailto:support@iproov.com).
-
 ## Repository contents
 
 The iProov Xamarin SDK is provided via this repository, which contains the following:
@@ -268,9 +262,9 @@ For a simple iProov experience that is ready to run out-of-the-box, check out th
 
 ### Usage
 
-1. Open the Example solution in Visual Studio.
-2. Right click the root project and "Restore NuGet Packages" to ensure all NuGet packages are ready for usage.
-3. Add your API key & secret to Credentials.cs in the Shared project.
+1. Copy the file _Shared/Credentials.example.cs_ to _Shared/Credentials.cs_ and provide your API key & secret.
+2. Open the Example solution in Visual Studio.
+3. Right click the root project and "Restore NuGet Packages" to ensure all NuGet packages are ready for usage.
 4. Run the iOSExample or AndroidExample project on a supported iOS or Android device respectively.
 
 > NOTE: iProov is not supported on the iOS or Android simulator, you must use a physical device in order to iProov.
