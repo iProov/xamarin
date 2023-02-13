@@ -9,7 +9,8 @@
     public class Credentials
     {
         // TODO: You should update these values as required:
-        public const string BASE_URL = "https://eu.rp.secure.iproov.me/api/v2";
+        public const string API_CLIENT_URL = "https://eu.rp.secure.iproov.me/api/v2";
+        public const string BASE_URL = "wss://eu.rp.secure.iproov.me/ws";
         public const string API_KEY = "< YOUR API KEY >";
         public const string SECRET = "< YOUR SECRET >";
     }
