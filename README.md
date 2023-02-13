@@ -101,7 +101,13 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 2. Import the package into your project with `using iProov.Android;`.
 
-3. Create a private class which implements `IProov.IListener` to handle the callbacks from the Android SDK:
+3. Create an instance of IProovCallbackLauncher
+
+	```csharp
+	IProovCallbackLauncher iProovLauncher = new IProovCallbackLauncher();
+	```
+
+4. Create a private class which implements `IProovCallbackLauncher.IListener` to handle the callbacks from the Android SDK:
 
 	```csharp
 	private IProovListener listener = new IProovListener();
@@ -121,10 +127,12 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	   		// should hide any progress indication at this point.
 		}
             
-		public void OnCancelled()
+		public void OnCancelled(IProov.Canceller canceller)
 		{
-	   		// The user cancelled iProov, either by pressing the close button at the top right, or pressing
-	   		// the home button.
+	   		// Either the user cancelled iProov by pressing the Close button at the top right or
+			// the Home button (canceller == USER)
+			// Or the app cancelled using Session.cancel() (canceller = APP).
+			// You should use this to determine the next step in your flow.
 		}
 		
 		public void OnError(IProovException error)
@@ -137,11 +145,11 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 		public void OnFailure(IProov.FailureResult result)
 		{
 			// The user was not successfully verified/enrolled, as their identity could not be verified,
-			// or there was another issue with their verification/enrollment. A reason (as a string)
+			// or there was another issue with their verification/enrollment. A reason (as a string resource id)
 			// is provided as to why the claim failed, along with a feedback code from the back-end.
 			
 			var feedbackCode = result.FeedbackCode;
-			var reason = result.Reason;
+			var reason = result.Reason.Description;
 		}
 		
 		public void OnProcessing(double progress, string message)
@@ -153,9 +161,8 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 		public void OnSuccess(IProov.SuccessResult result)
 		{
 			// The user was successfully verified/enrolled and the token has been validated.
-			// The token passed back will be the same as the one passed in to the original call.
-			
-			var token = result.Token;
+			// You must always independently validate the token server-side (using the /validate API call) 
+			// before performing any authenticated user actions.
 		}
 	
 	}
@@ -164,13 +171,17 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	> Alternatively you could just implement `IProov.IListener` on your `Activity` class.
 	
-4. You must register the iProov listener when your Activity is created:
+5. You must register the iProov listener when your Activity is created:
 
 	```csharp
+
+	IProovCallbackLauncher iProovLauncher = new IProovCallbackLauncher();
+	IProovListener listener = new IProovListener();
+
 	protected override void OnCreate(Bundle savedInstanceState)
 	{
 		base.OnCreate(savedInstanceState);
-		IProov.RegisterListener(listener);
+		iProovLauncher.Listener = listener;
 		
 		// ...continue your activity setup ...
 	}
@@ -181,7 +192,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	```csharp
 	protected override void OnDestroy()
 	{
-		IProov.UnregisterListener(listener);
+		iProovLauncher.Listener = null;
 		base.OnDestroy();
 	}
 	```
@@ -189,7 +200,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 5. You can now launch iProov by calling:
 
 	```csharp
-	IProov.Launch(this, "https://eu.rp.secure.iproov.me/", token, new IProov.Options()); // Substitute the streaming URL as appropriate
+	iProovLauncher.Launch(this, "wss://eu.rp.secure.iproov.me/ws", token, new IProov.Options()); // Substitute the streaming URL as appropriate
 	```
 	
 👉 You should now familiarise yourself with the [iProov Android SDK documentation](https://github.com/iProov/android) which provides comprehensive details about the available customization options and other important details regarding the iOS SDK usage.
