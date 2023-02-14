@@ -69,29 +69,29 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 				// You can access the following properties:
 				var token = result.Token; // The token passed back will be the same as the one passed in to the original call
 				var frame = result.Frame; // An optional image containing a single frame of the user, if enabled for your service provider
-		    },
+			},
 			cancelled: (canceller) =>
-		    {
+			{
 				// Either the user cancelled iProov by pressing the Close button at the top left or sending
 				// the app to the background. (canceller == USER)
-	        	// Or the app cancelled using Session.cancel() (canceller == APP).
-	        	// You should use this to determine the next step in your flow.
-		    },
-		    failure: (result) =>
-		    {
+				// Or the app cancelled using Session.cancel() (canceller == APP).
+				// You should use this to determine the next step in your flow.
+			},
+			failure: (result) =>
+			{
 				// The user was not successfully verified/enrolled, as their identity could not be verified,
 				// or there was another issue with their verification/enrollment. A reason (as a string)
 				// is provided as to why the claim failed, along with a feedback code from the back-end.
 				var reason = result.Reason
 				var description = result.LocalizedDescription;
-		    },
-		    error: (error) =>
-		    {
+			},
+			error: (error) =>
+			{
 				// The user was not successfully verified/enrolled due to an error (e.g. lost internet connection).
 				// You will be provided with an NSError. You can check the error code against the IPErrorCode constants
 				// to determine the type of error.
 				// It will be called once, or never.
-		    }
+			}
 	);
 	```
 	
