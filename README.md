@@ -48,23 +48,23 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 	```csharp
 	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new IPOptions(), // Substitute streaming URL as appropriate
-		    connecting: () =>
-		    {
+			connecting: () =>
+			{
 				// The SDK is connecting to the server. You should provide an indeterminate progress indicator
 				// to let the user know that the connection is taking place.
-		    },
-		    connected: () =>
-		    {
+			},
+			connected: () =>
+			{
 				// The SDK has connected, and the iProov user interface will now be displayed. You should hide
 				// any progress indication at this point.
-		    },
-		    processing: (progress, message) =>
-		    {
+			},
+			processing: (progress, message) =>
+			{
 				// The SDK will update your app with the progress of streaming to the server and authenticating
 				// the user. This will be called multiple time as the progress updates.
-		    },
-		    success: (result) =>
-		    {
+			},
+			success: (result) =>
+			{
 				// The user was successfully verified/enrolled and the token has been validated.
 				// You can access the following properties:
 				var token = result.Token; // The token passed back will be the same as the one passed in to the original call
