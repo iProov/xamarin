@@ -14,7 +14,7 @@ namespace iOSExample
     {
 
         APIClient apiClient = new APIClient(
-            Credentials.BASE_URL,
+            Credentials.API_CLIENT_URL,
             Credentials.API_KEY,
             Credentials.SECRET,
             "com.iproov.xamarin");
@@ -36,8 +36,7 @@ namespace iOSExample
                     userId); // Pass the User ID
 
                 var options = new IPOptions();
-                options.Ui.FloatingPromptEnabled = true;
-
+                
                 IProov.LaunchWithStreamingURL(Credentials.BASE_URL, token, options,
                     connecting: () =>
                     {
@@ -55,13 +54,13 @@ namespace iOSExample
                     {
                         BTProgressHUD.ShowSuccessWithStatus("Success!", maskType: MaskType.Black);
                     },
-                    cancelled: () =>
+                    cancelled: (canceller) =>
                     {
-                        BTProgressHUD.Dismiss();
+                        BTProgressHUD.ShowToast($"Cancelled by {canceller}", maskType: MaskType.Black);
                     },
                     failure: (result) =>
                     {
-                        BTProgressHUD.ShowErrorWithStatus(result.Reason, maskType: MaskType.Black);
+                        BTProgressHUD.ShowErrorWithStatus(result.LocalizedDescription, maskType: MaskType.Black);
                     },
                     error: (error) =>
                     {

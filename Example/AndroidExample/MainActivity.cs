@@ -12,20 +12,21 @@ using Shared;
 using iProov.APIClient;
 using iProov.Android;
 using Android.Content.PM;
+using Xamarin.Essentials;
 
 namespace AndroidExample
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : AppCompatActivity, IProovCallbackLauncher.IListener
     {
 
         APIClient apiClient = new APIClient(
-            Credentials.BASE_URL,
+            Credentials.API_CLIENT_URL,
             Credentials.API_KEY,
             Credentials.SECRET,
             "com.iproov.xamarin");
 
-        private IProovListener listener;
+        private IProovCallbackLauncher iProovLauncher = new IProovCallbackLauncher();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,27 +37,15 @@ namespace AndroidExample
             Toolbar toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            listener = new IProovListener(this);
-            IProov.RegisterListener(listener);
+            iProovLauncher.Listener = this;
 
             AppCompatButton launchButton = FindViewById<AppCompatButton>(Resource.Id.launchButton);
-            launchButton.Click += async delegate {
-                var userId = Guid.NewGuid().ToString(); // Generate a random User ID
-                var token = await apiClient.GetToken(
-                    AssuranceType.GenuinePresence, // Choose between GenuinePresence or Liveness
-                    ClaimType.Enrol, // Choose between Enrol or Verify
-                    userId); // Pass the User ID
-
-                var options = new IProov.Options();
-                options.Ui.FloatingPromptEnabled = true;
-
-                IProov.Launch(this, Credentials.BASE_URL, token, options);
-            };
+            launchButton.Click += launchIProov;
         }
 
         protected override void OnDestroy()
         {
-            IProov.UnregisterListener(listener);
+            iProovLauncher.Listener = null;
             base.OnDestroy();
         }
 
@@ -67,50 +56,55 @@ namespace AndroidExample
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        private class IProovListener : Java.Lang.Object, IProov.IListener
+        private async void launchIProov(object sender, EventArgs eventArgs)
         {
+            var guid = Guid.NewGuid().ToString();
 
-            private Context context;
+            var token = await apiClient.GetToken(AssuranceType.GenuinePresence, ClaimType.Enrol, guid);
 
-            public IProovListener(Context context)
-            {
-                this.context = context;
-            }
+            var options = new IProov.Options();
+            options.EnableScreenshots = true;
 
-            public void OnConnected()
-            {
-                AndHUD.Shared.Show(context, "Connecting...");
-            }
-
-            public void OnConnecting()
-            {
-                AndHUD.Shared.Dismiss();
-            }
-
-            public void OnCancelled()
-            {
-                AndHUD.Shared.Dismiss(context);
-            }
-
-            public void OnError(IProovException error)
-            {
-                AndHUD.Shared.ShowErrorWithStatus(context, error.Reason, timeout: TimeSpan.FromSeconds(1));
-            }
-
-            public void OnFailure(IProov.FailureResult result)
-            {
-                AndHUD.Shared.ShowErrorWithStatus(context, result.Reason, timeout: TimeSpan.FromSeconds(1));
-            }
-
-            public void OnProcessing(double progress, string message)
-            {
-                AndHUD.Shared.Show(context, message, (int) (progress * 100));
-            }
-
-            public void OnSuccess(IProov.SuccessResult result)
-            {
-                AndHUD.Shared.ShowSuccess(context, "Success!", timeout: TimeSpan.FromSeconds(1));
-            }
+            iProovLauncher.Launch(this, Credentials.BASE_URL, token, options);
         }
+
+        public void OnConnected()
+        {
+            AndHUD.Shared.Show(this, "Connecting...");
+        }
+
+        public void OnConnecting()
+        {
+            AndHUD.Shared.Dismiss();
+        }
+
+        public void OnCancelled(IProov.Canceller canceller)
+        {
+            var cancelledBy = canceller.Name();
+            AndHUD.Shared.Dismiss(this);
+        }
+
+        public void OnError(IProovException error)
+        {
+            AndHUD.Shared.ShowErrorWithStatus(this, error.Reason, timeout: TimeSpan.FromSeconds(1));
+        }
+
+        public void OnFailure(IProov.FailureResult result)
+        {
+            var feedbackCode = result.Reason.FeedbackCode;
+            var reason = this.GetString(result.Reason.Description);
+            AndHUD.Shared.ShowErrorWithStatus(this, reason, timeout: TimeSpan.FromSeconds(1));
+        }
+
+        public void OnProcessing(double progress, string message)
+        {
+            AndHUD.Shared.Show(this, message, (int) (progress * 100));
+        }
+
+        public void OnSuccess(IProov.SuccessResult result)
+        {
+            AndHUD.Shared.ShowSuccess(this, "Success!", timeout: TimeSpan.FromSeconds(1));
+        }
+       
     }
 }
