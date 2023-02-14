@@ -47,7 +47,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 4. Once you have obtained a token (either via the .NET API Client or other means), you can launch the iProov iOS SDK as follows:
 
 	```csharp
-	IProov.LaunchWithStreamingURL("https://eu.rp.secure.iproov.me/", token, new IPOptions(), // Substitute streaming URL as appropriate
+	IProov.LaunchWithStreamingURL("wss://eu.rp.secure.iproov.me/ws", token, new IPOptions(), // Substitute streaming URL as appropriate
 		connecting: () =>
 		{
 			// The SDK is connecting to the server. You should provide an indeterminate progress indicator
