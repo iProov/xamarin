@@ -78,9 +78,9 @@ namespace AndroidExample
             AndHUD.Shared.Dismiss();
         }
 
-        public void OnCancelled(IProov.Canceller canceller)
+        public void OnCanceled(IProov.Canceler canceler)
         {
-            var cancelledBy = canceller.Name();
+            var canceledBy = canceler.Name();
             AndHUD.Shared.Dismiss(this);
         }
 

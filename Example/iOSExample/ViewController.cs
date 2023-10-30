@@ -37,7 +37,7 @@ namespace iOSExample
 
                 var options = new IPOptions();
                 
-                IProov.LaunchWithStreamingURL(Credentials.BASE_URL, token, options,
+                IProov.LaunchWithStreamingURL(new NSUrl(Credentials.BASE_URL), token, options,
                     connecting: () =>
                     {
                         BTProgressHUD.Show("Connecting...", maskType: MaskType.Black);
@@ -54,9 +54,9 @@ namespace iOSExample
                     {
                         BTProgressHUD.ShowSuccessWithStatus("Success!", maskType: MaskType.Black);
                     },
-                    cancelled: (canceller) =>
+                    canceled: (canceler) =>
                     {
-                        BTProgressHUD.ShowToast($"Cancelled by {canceller}", maskType: MaskType.Black);
+                        BTProgressHUD.ShowToast($"Canceled by {canceler}", maskType: MaskType.Black);
                     },
                     failure: (result) =>
                     {
