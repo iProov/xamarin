@@ -70,11 +70,11 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 			var token = result.Token; // The token passed back will be the same as the one passed in to the original call
 			var frame = result.Frame; // An optional image containing a single frame of the user, if enabled for your service provider
 		},
-		cancelled: (canceller) =>
+		canceled: (canceler) =>
 		{
-			// Either the user cancelled iProov by pressing the Close button at the top left or sending
-			// the app to the background. (canceller == USER)
-			// Or the app cancelled using Session.cancel() (canceller == APP).
+			// Either the user canceled iProov by pressing the Close button at the top left or sending
+			// the app to the background. (canceler == USER)
+			// Or the app canceled using Session.cancel() (canceler == APP).
 			// You should use this to determine the next step in your flow.
 		},
 		failure: (result) =>
@@ -129,11 +129,11 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	   		// should hide any progress indication at this point.
 		}
             
-		public void OnCancelled(IProov.Canceller canceller)
+		public void OnCanceled(IProov.Canceler canceler)
 		{
-	   		// Either the user cancelled iProov by pressing the Close button at the top right or
-			// the Home button (canceller == USER)
-			// Or the app cancelled using Session.cancel() (canceller = APP).
+	   		// Either the user canceled iProov by pressing the Close button at the top right or
+			// the Home button (canceler == USER)
+			// Or the app canceled using Session.cancel() (canceler = APP).
 			// You should use this to determine the next step in your flow.
 		}
 		
@@ -271,7 +271,7 @@ You can now launch the iProov SDK with this token to complete the photo enrolmen
 
 ## Sample code
 
-For a simple iProov experience that is ready to run out-of-the-box, check out the [Example  project](/iProov/xamarin/tree/master/Example) for Xamarin.iOS and Xamarin.Android which also makes use of the .NET API Client.
+For a simple iProov experience that is ready to run out-of-the-box, check out the [Example  project](https://github.com/iProov/xamarin/tree/master/Example) for Xamarin.iOS and Xamarin.Android which also makes use of the .NET API Client.
 
 ### Usage
 
